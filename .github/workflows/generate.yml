@@ -50,13 +50,6 @@ jobs:
           sudo make install && \
           sudo curl -L https://cpanmin.us | perl - -M https://cpan.metacpan.org -n Mojolicious && \
           sudo cpan install Mojo::Log && \
-          sudo systemctl start mysql
-          sudo mysql -u root -p your_password < sql/01-schema.sql
-          sudo mysql -u root -p your_password < sql/02-database.sql
-          sudo mysql -u root -p your_password < sql/03-basmallah-shaddah.sql
-          sudo mysql -u root -p your_password -e "create user 'nextgen'@'localhost' identified by 'nextgen'"
-          sudo mysql -u root -p your_password -e "grant all privileges on nextgen.* to 'nextgen'@'localhost'"
-          sudo mysql -u root -p your_password -e "flush privileges"
           ./script/generate.pl --width 1280 --output ./output/ --pages 1..604
 
       - name: Upload Artifact
