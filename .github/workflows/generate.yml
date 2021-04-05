@@ -50,6 +50,7 @@ jobs:
           sudo make install && \
           sudo curl -L https://cpanmin.us | perl - -M https://cpan.metacpan.org -n Mojolicious && \
           sudo cpan install Mojo::Log && \
+          sudo service mysqld start && \
           ./script/generate.pl --width 1280 --output ./output/ --pages 1..604
 
       - name: Upload Artifact
