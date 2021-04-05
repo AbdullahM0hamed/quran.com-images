@@ -18,7 +18,6 @@ jobs:
 
       - name: Clone repo
         uses: actions/checkout@v2
-        with:
 
       - name: Store Cache
         uses: actions/cache@v2
