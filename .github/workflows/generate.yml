@@ -6,7 +6,10 @@ on:
       - '*'
 
 jobs:
-  containter-job:
+  generate:
+    name: Generate Quran Images
+    runs-on: ubuntu-latest
+    
     services:
       mysql:
         image: mysql:5.7
@@ -15,10 +18,6 @@ jobs:
           - MYSQL_USER=nextgen
           - MYSQL_PASSWORD=nextgen
           - MYSQL_ROOT_PASSWORD=nextgen
-
-  generate:
-    name: Generate Quran Images
-    runs-on: ubuntu-latest
 
     steps:
       - name: Cancel previous runs
