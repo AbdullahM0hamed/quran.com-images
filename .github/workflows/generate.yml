@@ -20,6 +20,7 @@ jobs:
           MYSQL_ROOT_PASSWORD: nextgen
         ports:
           - 3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
       - name: Cancel previous runs
@@ -29,6 +30,11 @@ jobs:
 
       - name: Clone repo
         uses: actions/checkout@v2
+
+      - name: Verify MySQL Service
+        run: |
+          sudo apt-get install -y mysql-client
+          mysql --host 127.0.0.1 --port 3306 -uroot -pnextgen -e "SHOW DATABASES"
 
       - name: Generate Images
         run: |
