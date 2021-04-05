@@ -32,6 +32,12 @@ jobs:
           mkdir images
           docker cp ./output:/app/output ./images
           docker-compose down
+      
+      - name: Store Cache
+        uses: actions/cache@v2
+        with:
+          path: C:\ProgramData\chocolatey
+          key: ${{ runner.os }}-${{ hashFiles('**/lockfiles') }}
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
