@@ -29,11 +29,10 @@ jobs:
           docker-compose up -d
           docker-compose run gen /app/script/generate.pl --output ./output/ ...
           docker-compose run gen zopflipng --prefix=comp/ ... ./output/*.png
-          docker volume ls
           docker-compose down
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
         with:
           name: QuranImages
-          path: output
+          path: .
