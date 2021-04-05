@@ -21,7 +21,6 @@ jobs:
 
       - name: Generate Images
         run: |
-          apt-get update -qq && \
           apt-get install -y \
           libgd-gd2-perl libgd-text-perl \
           libdbd-mysql-perl libdbi-perl \
