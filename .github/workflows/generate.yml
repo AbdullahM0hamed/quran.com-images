@@ -18,6 +18,12 @@ jobs:
 
       - name: Clone repo
         uses: actions/checkout@v2
+        with:
+
+      - name: Store Cache
+        uses: actions/cache@v2
+          path: C:\ProgramData\chocolatey
+          key: ${{ runner.os }}-${{ hashFiles('**/lockfiles') }}
 
       - name: Install Docker
         uses: crazy-max/ghaction-chocolatey@v1
@@ -30,17 +36,11 @@ jobs:
           docker-compose run gen /app/script/generate.pl --output ./output/ ...
           docker-compose run gen zopflipng --prefix=comp/ ... ./output/*.png
           mkdir images
-          docker cp ./output:/app/output ./images
+          docker cp ./output ./output:/app/output
           docker-compose down
-      
-      - name: Store Cache
-        uses: actions/cache@v2
-        with:
-          path: C:\ProgramData\chocolatey
-          key: ${{ runner.os }}-${{ hashFiles('**/lockfiles') }}
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
         with:
           name: QuranImages
-          path: images
+          path: output
