@@ -18,6 +18,8 @@ jobs:
           MYSQL_USER: nextgen
           MYSQL_PASSWORD: nextgen
           MYSQL_ROOT_PASSWORD: nextgen
+        ports:
+          - 3306
 
     steps:
       - name: Cancel previous runs
@@ -27,19 +29,6 @@ jobs:
 
       - name: Clone repo
         uses: actions/checkout@v2
-
-      - uses: mirromutth/mysql-action@v1.1
-        with:
-          host port: 3800
-          container port: 3307
-          character set server: 'utf8'
-          collation server: 'utf8_general_ci'
-          mysql version: '8.0'
-          mysql database: 'nextgen'
-          mysql root password: 'your_password'
-          mysql user: 'nextgen'
-          mysql password: 'nextgen'
-
 
       - name: Generate Images
         run: |
