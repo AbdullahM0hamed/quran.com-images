@@ -28,7 +28,6 @@ jobs:
           make gcc g++ \
           unzip \
           curl && \
-          sudo apt-get clean && \
           perl Makefile.PL && \
           make && \
           make install && \
