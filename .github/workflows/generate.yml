@@ -21,6 +21,7 @@ jobs:
 
       - name: Generate Images
         run: |
+          sudo apt-get update -qq && \
           sudo apt-get install -y \
           libgd-gd2-perl libgd-text-perl \
           libdbd-mysql-perl libdbi-perl \
@@ -28,10 +29,12 @@ jobs:
           make gcc g++ \
           unzip \
           curl && \
+          sudo apt-get clean && \
+          sudo rm -rf /var/lib/apt/lists/* && \
           perl Makefile.PL && \
           make && \
           make install && \
-          curl -L https://cpanmin.us | perl - -M https://cpan.metacpan.org -n Mojolicious
+          curl -L https://cpanmin.us | perl - -M https://cpan.metacpan.org -n Mojolicious && \
           ./script/generate.pl --width 1280 --output ./output/ --pages 1..604
 
       - name: Upload Artifact
