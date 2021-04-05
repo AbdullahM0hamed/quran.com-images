@@ -6,6 +6,16 @@ on:
       - '*'
 
 jobs:
+  containter-job:
+    services:
+      mysql:
+        image: mysql:5.7
+        environment:
+          - MYSQL_DATABASE=nextgen
+          - MYSQL_USER=nextgen
+          - MYSQL_PASSWORD=nextgen
+          - MYSQL_ROOT_PASSWORD=nextgen
+
   generate:
     name: Generate Quran Images
     runs-on: ubuntu-latest
