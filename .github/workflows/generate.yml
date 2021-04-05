@@ -21,14 +21,14 @@ jobs:
 
       - name: Generate Images
         run: |
-          apt-get install -y \
+          sudo apt-get install -y \
           libgd-gd2-perl libgd-text-perl \
           libdbd-mysql-perl libdbi-perl \
           libconfig-yaml-perl \
           make gcc g++ \
           unzip \
           curl && \
-          apt-get clean && \
+          sudo apt-get clean && \
           perl Makefile.PL && \
           make && \
           make install && \
