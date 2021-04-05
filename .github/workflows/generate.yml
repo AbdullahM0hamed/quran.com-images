@@ -35,8 +35,7 @@ jobs:
           docker-compose up -d
           docker-compose run gen /app/script/generate.pl --output ./output/ ...
           docker-compose run gen zopflipng --prefix=comp/ ... ./output/*.png
-          mkdir images
-          docker cp ./output ./output:/app/output
+          docker cp ./output/. gen:./output
           docker-compose down
 
       - name: Upload Artifact
