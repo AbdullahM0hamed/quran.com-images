@@ -8,7 +8,7 @@ on:
 jobs:
   generate:
     name: Generate Quran Images
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
       - name: Cancel previous runs
@@ -19,23 +19,23 @@ jobs:
       - name: Clone repo
         uses: actions/checkout@v2
 
-      - name: Store Cache
-        uses: actions/cache@v2
-        with:
-          path: C:\ProgramData\chocolatey
-          key: ${{ runner.os }}-${{ hashFiles('**/lockfiles') }}
-
-      - name: Install Docker
-        uses: crazy-max/ghaction-chocolatey@v1
-        with:
-          args: install docker-desktop -y
-
       - name: Generate Images
         run: |
-          docker-compose up -d
-          docker-compose run gen /app/script/generate.pl --output ./output/ ...
-          docker-compose run gen zopflipng --prefix=comp/ ... ./output/*.png
-          docker-compose stop
+          apt-get update -qq && \
+          apt-get install -y \
+          libgd-gd2-perl libgd-text-perl \
+          libdbd-mysql-perl libdbi-perl \
+          libconfig-yaml-perl \
+          make gcc g++ \
+          unzip \
+          curl && \
+          apt-get clean && \
+          rm -rf /var/lib/apt/lists/*
+          perl Makefile.PL && \
+          make && \
+          make install && \
+          curl -L https://cpanmin.us | perl - -M https://cpan.metacpan.org -n Mojolicious
+          ./script/generate.pl --width 1280 --output ./output/ --pages 1..604
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
