@@ -31,10 +31,10 @@ jobs:
           curl && \
           sudo apt-get clean && \
           sudo rm -rf /var/lib/apt/lists/* && \
-          perl Makefile.PL && \
-          make && \
-          make install && \
-          curl -L https://cpanmin.us | perl - -M https://cpan.metacpan.org -n Mojolicious && \
+          sudo perl Makefile.PL && \
+          sudo make && \
+          sudo make install && \
+          sudo curl -L https://cpanmin.us | perl - -M https://cpan.metacpan.org -n Mojolicious && \
           ./script/generate.pl --width 1280 --output ./output/ --pages 1..604
 
       - name: Upload Artifact
