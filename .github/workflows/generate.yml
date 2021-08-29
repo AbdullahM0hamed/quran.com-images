@@ -8,19 +8,7 @@ on:
 jobs:
   generate:
     name: Generate Quran Images
-    runs-on: ubuntu-latest
-    
-    services:
-      mysql:
-        image: mysql:5.7
-        env:
-          MYSQL_DATABASE: nextgen
-          MYSQL_USER: nextgen
-          MYSQL_PASSWORD: nextgen
-          MYSQL_ROOT_PASSWORD: nextgen
-        ports:
-          - 32574:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+    runs-on: windows-latest
 
     steps:
       - name: Cancel previous runs
@@ -31,29 +19,23 @@ jobs:
       - name: Clone repo
         uses: actions/checkout@v2
 
-      - name: Verify MySQL Service
-        run: |
-          sudo apt-get install -y mysql-client
+      - name: Store Cache
+        uses: actions/cache@v2
+        with:
+          path: C:\ProgramData\chocolatey
+          key: ${{ runner.os }}-${{ hashFiles('**/lockfiles') }}
+
+      - name: Install Docker
+        uses: crazy-max/ghaction-chocolatey@v1
+        with:
+          args: install docker-desktop -y
 
       - name: Generate Images
         run: |
-          sudo apt-get update -qq && \
-          sudo apt-get install -y \
-          libgd-gd2-perl libgd-text-perl \
-          libdbd-mysql-perl libdbi-perl \
-          libconfig-yaml-perl \
-          make gcc g++ \
-          unzip \
-          mysql-server \
-          curl && \
-          sudo apt-get clean && \
-          sudo rm -rf /var/lib/apt/lists/* && \
-          sudo perl Makefile.PL && \
-          sudo make && \
-          sudo make install && \
-          sudo curl -L https://cpanmin.us | perl - -M https://cpan.metacpan.org -n Mojolicious && \
-          sudo cpan install Mojo::Log && \
-          ./script/generate.pl --width 1280 --output ./output/ --pages 1..604
+          docker-compose up -d
+          docker-compose run gen /app/script/generate.pl --output ./output/ ...
+          docker-compose run gen zopflipng --prefix=comp/ ... ./output/*.png
+          docker-compose stop
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
