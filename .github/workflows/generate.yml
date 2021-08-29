@@ -19,12 +19,6 @@ jobs:
       - name: Clone repo
         uses: actions/checkout@v2
 
-      - name: Store Cache
-        uses: actions/cache@v2
-        with:
-          path: C:\ProgramData\chocolatey
-          key: ${{ runner.os }}-${{ hashFiles('**/lockfiles') }}
-
       - name: Install Docker
         uses: crazy-max/ghaction-chocolatey@v1
         with:
