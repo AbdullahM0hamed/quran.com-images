@@ -34,7 +34,6 @@ jobs:
       - name: Verify MySQL Service
         run: |
           sudo apt-get install -y mysql-client
-          mysql --host 127.0.0.1 --port 3306 -uroot -pnextgen -e "SHOW DATABASES"
 
       - name: Generate Images
         run: |
